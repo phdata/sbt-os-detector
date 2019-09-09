@@ -32,7 +32,7 @@ can access the following attributes:
 ### To add platform specific depencencies
 
 ```scala
-libraryDependencies += "group.id" % "artifact" % "version" % "test" classifier osDetectorClassifier
+libraryDependencies += "group.id" % "artifact" % "version" % "test" classifier osDetectorClassifier.value
 ```
 
 ## To build and install locally

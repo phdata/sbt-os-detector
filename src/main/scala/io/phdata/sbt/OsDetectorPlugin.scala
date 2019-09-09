@@ -17,7 +17,7 @@
 package io.phdata.sbt
 
 import com.google.gradle.osdetector.OsDetector
-import sbt.{AutoPlugin, _}
+import sbt.{AutoPlugin, Def, _}
 
 object OsDetectorPlugin extends AutoPlugin {
 
@@ -30,14 +30,8 @@ object OsDetectorPlugin extends AutoPlugin {
 
   import autoImport._
 
-//  override lazy val buildSettings = Seq(
-//    osDetectorOs := "foo",
-//    osDetectorArch := "bar",
-//    osDetectorClassifier := "foo-bar",
-//    osDetectorRelease := ""
-//  )
   lazy val d = new OsDetector()
-  override lazy val buildSettings = Seq(
+  override lazy val buildSettings: Seq[Def.Setting[String]] = Seq(
     osDetectorOs := d.getOs,
     osDetectorArch := d.getArch,
     osDetectorClassifier := d.getClassifier,
