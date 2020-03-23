@@ -18,7 +18,7 @@ lazy val root = (project in file(".")).
   settings(
     name := "sbt-os-detector",
     organization := "io.phdata",
-    version := "0.1",
+    version := "0.1.1-SNAPSHOT",
     scalaVersion := "2.12.8",
     sbtPlugin := true,
     sbtVersion := "1.2.8"
@@ -26,23 +26,20 @@ lazy val root = (project in file(".")).
 
 libraryDependencies ++= Seq(
   "com.google.gradle" % "osdetector-gradle-plugin" % "1.6.2",
-  // os-maven-plugin is a dependency of osdetector-gradle-plugin, but SBT won't add it to the classpath because the
-  // pom specifies the packaging as `maven-plugin` instead of jar.
-  "kr.motd.maven" % "os-maven-plugin" % "1.6.2"
-    artifacts (Artifact("os-maven-plugin", "jar", "jar"))
-    exclude("org.apache.maven", "maven-plugin-api")
-    exclude("org.codehaus.plexus", "plexus-utils")
 )
 
-assemblyShadeRules in assembly := Seq(
-  ShadeRule.rename("kr.motd.maven.**" -> "io.phdata.shaded.kr.motd.maven.@1").inAll,
-  ShadeRule.rename("com.google.gradle.**" -> "io.phdata.shaded.com.google.gradle.@1").inAll,
-  ShadeRule.rename("javax.**" -> "io.phdata.shaded.javax.@1").inAll
-)
+resolvers ++= Seq(
+  "phData Snapshot Repo" at "https://repository.phdata.io/artifactory/libs-snapshot",
+  "phData Release Repo" at "https://repository.phdata.io/artifactory/libs-release")
 
-artifact in(Compile, assembly) := {
-  val art = (artifact in(Compile, assembly)).value
-  art.withClassifier(Some("assembled"))
+
+credentials += Credentials(Path.userHome / ".sbt" / ".credentials")
+
+val artifactoryUrl = "https://repository.phdata.io/artifactory"
+
+publishTo := {
+  if (version.value.endsWith("SNAPSHOT"))
+    Some("phData Snapshots".at(s"$artifactoryUrl/libs-snapshot-local;build.timestamp=" + new java.util.Date().getTime))
+  else
+    Some("phData Releases".at(s"$artifactoryUrl/libs-release-local"))
 }
-
-addArtifact(artifact in(Compile, assembly), assembly)
