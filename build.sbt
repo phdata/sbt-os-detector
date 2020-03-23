@@ -18,7 +18,7 @@ lazy val root = (project in file(".")).
   settings(
     name := "sbt-os-detector",
     organization := "io.phdata",
-    version := "0.1.1-SNAPSHOT",
+    version := "0.2.0",
     scalaVersion := "2.12.8",
     sbtPlugin := true,
     sbtVersion := "1.2.8"
