@@ -11,7 +11,9 @@ Requires Java 8 or up.
 To use this plugin, include in your plugins.sbt:
 
 ```scala
-addSbtPlugin("io.phdata" % "sbt-os-detector" % "0.1" classifier "assembly")
+resolvers += "phData Releases" at "https://repository.phdata.io/artifactory/libs-release"
+classpathTypes += "maven-plugin"
+addSbtPlugin("io.phdata" % "sbt-os-detector" % "0.2.0")
 ```
 
 The plugin creates ``osDetector*`` settings in your project, through which you
