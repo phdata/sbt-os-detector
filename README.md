@@ -1,5 +1,5 @@
 # OS Detector Plugin for SBT
-A SBT plugin that detects the OS name and architecture, providing a uniform
+An SBT plugin that detects the OS name and architecture, providing a uniform
 classifier to be used in the names of native artifacts.
 
 It uses [os-maven-plugin](https://github.com/trustin/os-maven-plugin) under the
